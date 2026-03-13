@@ -974,42 +974,27 @@ sealed class Location(override val key: String): Keyed {
             NORMAL, RELATIVE, CARET
         }
 
-        data class Coordinate(val value: Number?, val type: Type) {
-            constructor(value: Number) : this(value, Type.NORMAL)
+        data class Coordinate(val value: String?, val type: Type) {
+            constructor(value: String) : this(value, Type.NORMAL)
         }
 
         override fun toString(): String {
-            val xStr = when (x.type) {
-                Type.NORMAL -> x.value.toString()
-                Type.RELATIVE -> "~${x.value ?: ""}"
-                Type.CARET -> "^${x.value ?: ""}"
+            fun formatCoordinate(coordinate: Coordinate): String = when (coordinate.type) {
+                Type.NORMAL -> coordinate.value.toString()
+                Type.RELATIVE -> "~${coordinate.value ?: ""}"
+                Type.CARET -> "^${coordinate.value ?: ""}"
             }
-            val yStr = when (y.type) {
-                Type.NORMAL -> y.value.toString()
-                Type.RELATIVE -> "~${y.value ?: ""}"
-                Type.CARET -> "^${y.value ?: ""}"
-            }
-            val zStr = when (z.type) {
-                Type.NORMAL -> z.value.toString()
-                Type.RELATIVE -> "~${z.value.toString()}"
-                Type.CARET -> "^${z.value.toString()}"
-            }
-            val pitchStr = if (pitch != null) {
-                when (pitch.type) {
-                    Type.NORMAL -> pitch.value.toString()
-                    Type.RELATIVE -> "~${pitch.value ?: ""}"
-                    Type.CARET -> "^${pitch.value ?: ""}"
-                }
-            } else null
-            val yawStr = if (yaw != null) {
-                when (yaw.type) {
-                    Type.NORMAL -> yaw.value.toString()
-                    Type.RELATIVE -> "~${yaw.value ?: ""}"
-                    Type.CARET -> "^${yaw.value ?: ""}"
-                }
-            } else null
 
-            return listOfNotNull(xStr, yStr, zStr, pitchStr, yawStr).joinToString(" ")
+            val pitchStr = pitch?.let { formatCoordinate(it) }
+            val yawStr = yaw?.let { formatCoordinate(it) }
+
+            return listOfNotNull(
+                formatCoordinate(x),
+                formatCoordinate(y),
+                formatCoordinate(z),
+                pitchStr,
+                yawStr
+            ).joinToString(" ")
         }
     }
 
