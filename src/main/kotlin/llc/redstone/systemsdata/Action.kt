@@ -1072,22 +1072,22 @@ sealed class StatValue {
         }
 
         fun fromString(str: String, colorStr: String? = null): StatValue {
-            val intValue = str.toIntOrNull()
+            val intValue = str.replace(",", "").toIntOrNull()
             if (intValue != null) return I32(intValue)
 
             val longValue = str.toLongOrNull()
             if (longValue != null) return Lng(longValue)
             if (str.endsWith("L", true)) {
-                val longWithoutSuffix = str.substring(0, str.length - 1)
-                val longValueWithSuffix = longWithoutSuffix.toLongOrNull()
+                val longWithoutSuffixOrComma = str.substring(0, str.length - 1).replace(",", "")
+                val longValueWithSuffix = longWithoutSuffixOrComma.toLongOrNull()
                 if (longValueWithSuffix != null) return Lng(longValueWithSuffix)
             }
 
             val doubleValue = str.toDoubleOrNull()
             if (doubleValue != null) return Dbl(doubleValue)
             if (str.endsWith("D", true)) {
-                val doubleWithoutSuffix = str.substring(0, str.length - 1)
-                val doubleValueWithSuffix = doubleWithoutSuffix.toDoubleOrNull()
+                val doubleWithoutSuffixOrComma = str.substring(0, str.length - 1).replace(",", "")
+                val doubleValueWithSuffix = doubleWithoutSuffixOrComma.toDoubleOrNull()
                 if (doubleValueWithSuffix != null) return Dbl(doubleValueWithSuffix)
             }
 
