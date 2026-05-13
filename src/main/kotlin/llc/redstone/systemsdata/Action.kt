@@ -1072,26 +1072,27 @@ sealed class StatValue {
         }
 
         fun fromString(str: String, colorStr: String? = null): StatValue {
-            val intValue = str.replace(",", "").toIntOrNull()
+            val cleanedStr = str.replace(",", "")
+            val intValue = cleanedStr.toIntOrNull()
             if (intValue != null) return I32(intValue)
 
-            val longValue = str.toLongOrNull()
+            val longValue = cleanedStr.toLongOrNull()
             if (longValue != null) return Lng(longValue)
-            if (str.endsWith("L", true)) {
-                val longWithoutSuffixOrComma = str.substring(0, str.length - 1).replace(",", "")
+            if (cleanedStr.endsWith("L", true)) {
+                val longWithoutSuffixOrComma = cleanedStr.substring(0, cleanedStr.length - 1)
                 val longValueWithSuffix = longWithoutSuffixOrComma.toLongOrNull()
                 if (longValueWithSuffix != null) return Lng(longValueWithSuffix)
             }
 
-            val doubleValue = str.toDoubleOrNull()
+            val doubleValue = cleanedStr.toDoubleOrNull()
             if (doubleValue != null) return Dbl(doubleValue)
-            if (str.endsWith("D", true)) {
-                val doubleWithoutSuffixOrComma = str.substring(0, str.length - 1).replace(",", "")
+            if (cleanedStr.endsWith("D", true)) {
+                val doubleWithoutSuffixOrComma = cleanedStr.substring(0, cleanedStr.length - 1)
                 val doubleValueWithSuffix = doubleWithoutSuffixOrComma.toDoubleOrNull()
                 if (doubleValueWithSuffix != null) return Dbl(doubleValueWithSuffix)
             }
 
-            val str = colorStr ?: str
+            val str = colorStr ?: cleanedStr
 
             if (str.startsWith("\"") && str.endsWith("\"") && str.length >= 2) {
                 return Str(str.substring(1, str.length - 1))
