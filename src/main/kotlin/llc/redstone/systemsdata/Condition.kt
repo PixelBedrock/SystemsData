@@ -18,7 +18,7 @@ Borrowed from https://github.com/sndyx/hsl, licensed under the MIT License
  */
 
 @Serializable
-abstract class Condition(
+sealed class Condition(
     @Transient private val conditionName: String = ""
 ): PropertyHolder {
     var inverted = false

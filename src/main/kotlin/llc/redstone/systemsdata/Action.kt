@@ -12,7 +12,7 @@ import llc.redstone.systemsdata.enums.Lobby
 import llc.redstone.systemsdata.enums.PotionEffect
 import llc.redstone.systemsdata.enums.Sound
 
-abstract class Action(
+sealed class Action(
     @Transient private val actionName: String = ""
 ): PropertyHolder {
     @ActionDefinition(
