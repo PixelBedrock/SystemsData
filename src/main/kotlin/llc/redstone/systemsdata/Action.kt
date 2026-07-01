@@ -403,7 +403,7 @@ sealed class Action(
     data class PlayerVariable(
         val variable: String = "Kills",
         val op: StatOp = StatOp.Inc,
-        val amount: StatValue? = null,
+        val amount: StatValue? = StatValue.I32(1),
         val unset: Boolean = false
     ) : ChangeVariable(VariableHolder.Player)
 
@@ -429,7 +429,7 @@ sealed class Action(
         @property:Pagination val teamName: String? = null,
         val variable: String = "Kills",
         val op: StatOp = StatOp.Inc,
-        val amount: StatValue? = null,
+        val amount: StatValue? = StatValue.I32(1),
         val unset: Boolean = false
     ) : ChangeVariable(VariableHolder.Team)
 
@@ -454,7 +454,7 @@ sealed class Action(
     data class GlobalVariable(
         val variable: String = "Kills",
         val op: StatOp = StatOp.Inc,
-        val amount: StatValue? = null,
+        val amount: StatValue? = StatValue.I32(1),
         val unset: Boolean = false
     ) : ChangeVariable(VariableHolder.Global)
 
